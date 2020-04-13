@@ -1,0 +1,19 @@
+:host {
+}
+
+.user {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    align-items: center;
+    border: black 2px solid;
+    border-radius: 20px;
+    margin-bottom: 30px;
+}
+
+.user img {
+    height: 250px;
+}
+.user-name {
+    margin-bottom: 0;
+}

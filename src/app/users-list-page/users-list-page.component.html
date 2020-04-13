@@ -1,0 +1,6 @@
+<ng-container *ngFor="let user of this.users">
+    <div class="user">
+        <img src={{user.avatar_url}} alt="user avatar">
+        <h2 class="user-name">{{user.login}}</h2>
+    </div>
+</ng-container>
