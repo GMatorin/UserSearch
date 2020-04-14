@@ -1,6 +1,10 @@
 :host {
 }
 
+cdk-virtual-scroll-viewport{
+    height: 100vh;
+}
+
 .user {
     display: flex;
     flex-direction: column;

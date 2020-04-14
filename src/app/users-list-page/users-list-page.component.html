@@ -1,5 +1,5 @@
-<ng-container *ngFor="let user of this.users">
-    <div class="user">
+<ng-container *ngIf="(users$ | async) as users">
+    <div class="user" *ngFor="let user of users; trackBy: trackByIdx">
         <img src={{user.avatar_url}} alt="user avatar">
         <h2 class="user-name">{{user.login}}</h2>
     </div>
