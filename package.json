@@ -8,8 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "deploy": "ng build --prod --base-href 
-    https://gmatorin.github.io/UserSearch/ && angular-cli-ghpages --branch gh-pages",
+    "deploy": "ng build --prod --base-href https://gmatorin.github.io/UserSearch/ && angular-cli-ghpages --branch gh-pages"
   },
   "private": true,
   "dependencies": {
