@@ -1,12 +1,25 @@
 :host {
 }
 
-cdk-virtual-scroll-viewport{
-    height: 100vh;
+.input-form {
+    text-align: center;
+    padding: 10px 0;
+}
+
+input {
+    border: black 1px solid;;
+    background-color: rgb(230, 230, 237);
+    width: 35%;
+    min-width: 100px;
+    height: 20px;
+    text-align: center;
+    outline: none;
+    border-radius: 20px;
 }
 
 .user {
     display: flex;
+    cursor: pointer;
     flex-direction: column;
     padding: 20px;
     align-items: center;
@@ -15,9 +28,19 @@ cdk-virtual-scroll-viewport{
     margin-bottom: 30px;
 }
 
+.user:hover {
+    background-color: rgb(235, 217, 217);
+}
+
 .user img {
     height: 250px;
 }
 .user-name {
     margin-bottom: 0;
+}
+
+@media screen and (max-width: 500px) {
+    .user img {
+        height: 100px;
+    }
 }

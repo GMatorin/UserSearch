@@ -1,0 +1,17 @@
+<ng-container *ngIf="userRepos$ | async as userRepos">
+    <ng-container *ngIf="userDetails$ | async as userDetails">
+        <div class="user-details" 
+        *ngIf="userRepos && userDetails">
+            <h1>{{userDetails.login}} Details</h1>
+            <h2>List of repositories</h2>
+            <button [routerLink]="['/users']">
+                Back
+            </button>
+            <ul class="repositories">
+                <li class="repositories-element" *ngFor="let repo of userRepos">
+                    {{repo.name}}
+                </li>
+            </ul>
+        </div>
+    </ng-container>
+</ng-container>

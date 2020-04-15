@@ -1,6 +1,19 @@
+<div class="input-form">
+    <input type="text" placeholder="Sort out a user"
+    (keyup)="onKey($event)"
+    [(ngModel)]="userName">
+</div>
+
 <ng-container *ngIf="(users$ | async) as users">
-    <div class="user" *ngFor="let user of users; trackBy: trackByIdx">
+    <div class="user"
+    *ngFor="let user of users; trackBy: trackByIdx"
+    [routerLink]="['/users', user.login]"
+    (mousedown) = "handleUserDetails(user.login)">
         <img src={{user.avatar_url}} alt="user avatar">
         <h2 class="user-name">{{user.login}}</h2>
+        <a  
+        >
+        View Details
+      </a>
     </div>
 </ng-container>

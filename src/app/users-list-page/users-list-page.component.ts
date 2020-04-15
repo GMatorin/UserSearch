@@ -1,21 +1,16 @@
-import { Component, OnInit, ViewChild, HostListener } from "@angular/core";
+import { Component, OnInit, HostListener } from "@angular/core";
 import { IUser } from "../interfaces/user.interface"
-import { UserApiService } from '../services/user-api.service';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { UsersService } from '../services/users.service';
-import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 
 @Component({
-    selector: "app-users-list-page",
     templateUrl: "./users-list-page.component.html",
     styleUrls: ["./users-list-page.component.css"]
 })
-export class UsersListPage implements OnInit {
-    @ViewChild(CdkVirtualScrollViewport)
-    viewport: CdkVirtualScrollViewport;
-
+export class UsersListPageComponent implements OnInit {
     public users$: Observable<IUser[]> = this.usersService.users$;
     public offset: BehaviorSubject<IUser[]> = new BehaviorSubject([]);
+    userName: string = '';
 
     constructor(private usersService: UsersService){}
 
@@ -25,12 +20,20 @@ export class UsersListPage implements OnInit {
 
     @HostListener("window:scroll", [])
     onScroll(): void {
-    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight && this.userName.length === 0) {
             this.usersService.newUsersOnScroll();
         }
     }
 
     trackByIdx(i) {
         return i;
+    }
+
+    onKey(e) {
+        this.usersService.filterByName(this.userName);
+    }
+
+    handleUserDetails(userName: string) {
+        this.usersService.getUserDetailsPageInfo(userName);
     }
 }
