@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, combineLatest } from 'rxjs';
 import { IUser } from '../interfaces/user.interface';
 import { UserApiService } from './user-api.service';
-import { take } from 'rxjs/operators';
+import { take, map } from 'rxjs/operators';
 import { IUserRepo } from '../interfaces/user-repo.interface';
 import { IUserDetails } from '../interfaces/user-details.interface';
+import { IUserCombinedInfo } from '../interfaces/user-combined-info.interface';
 
 @Injectable({
     providedIn: 'root'
@@ -17,8 +18,12 @@ export class UsersService {
     public userSearchValue = '';
     public userRepos$: Observable<IUserRepo[]>;
     public userDetails$: Observable<IUserDetails>;
+    public userFollowers$: Observable<IUser[]>;
+    public userCombinedInfo$: Observable<IUserCombinedInfo>;
     
     constructor(private userApiService: UserApiService) {
+        // Load first batch of users
+        this.newUsersOnScroll();
     }
 
     public newUsersOnScroll(): void {
@@ -45,5 +50,16 @@ export class UsersService {
     getUserDetailsPageInfo(userName: string) {
         this.userDetails$ = this.userApiService.getUserDetails(userName);
         this.userRepos$ = this.userApiService.getUserRepos(userName);
+        this.userFollowers$ = this.userApiService.getUserFollowers(userName);
+        
+        this.userCombinedInfo$ = combineLatest(this.userDetails$, this.userRepos$, this.userFollowers$).pipe(
+            map(([userDetails, userRepos, userFollowers]) => {
+                return {
+                    userDetails,
+                    userRepos,
+                    userFollowers
+                }
+            })
+        )
     }
 }

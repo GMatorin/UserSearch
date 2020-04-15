@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from "@angular/core";
+import { Component, OnInit, HostListener, AfterViewInit } from "@angular/core";
 import { IUser } from "../interfaces/user.interface"
 import { Observable, BehaviorSubject } from 'rxjs';
 import { UsersService } from '../services/users.service';
@@ -15,15 +15,15 @@ export class UsersListPageComponent implements OnInit {
     constructor(private usersService: UsersService){}
 
     ngOnInit() {
-        this.usersService.newUsersOnScroll();
+        this.usersService.filterByName(this.userName);
     }
 
     @HostListener("window:scroll", [])
     onScroll(): void {
-    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight && this.userName.length === 0) {
-            this.usersService.newUsersOnScroll();
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight && this.userName.length === 0) {
+                this.usersService.newUsersOnScroll();
+            }
         }
-    }
 
     trackByIdx(i) {
         return i;

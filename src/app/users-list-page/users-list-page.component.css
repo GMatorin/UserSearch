@@ -1,9 +1,14 @@
 :host {
 }
 
+.title{
+    text-align: center;
+}
+
 .input-form {
     text-align: center;
     padding: 10px 0;
+    margin-bottom: 20px;
 }
 
 input {
@@ -11,10 +16,16 @@ input {
     background-color: rgb(230, 230, 237);
     width: 35%;
     min-width: 100px;
-    height: 20px;
+    height: 25px;
     text-align: center;
     outline: none;
     border-radius: 20px;
+    font-size: 17px;
+}
+
+input:focus::-webkit-input-placeholder 
+{
+    color: transparent;
 }
 
 .user {
@@ -25,7 +36,8 @@ input {
     align-items: center;
     border: black 2px solid;
     border-radius: 20px;
-    margin-bottom: 30px;
+    width: 80%;
+    margin: 0 auto 30px auto;
 }
 
 .user:hover {

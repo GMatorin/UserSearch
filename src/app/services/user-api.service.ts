@@ -12,7 +12,8 @@ export class UserApiService {
     private actions = {
         getUsers: 'https://api.github.com/users?since=:searchNumber',
         getUserDetails: 'https://api.github.com/users/:userName',
-        getRepos: 'https://api.github.com/users/:userName/repos'
+        getRepos: 'https://api.github.com/users/:userName/repos',
+        getFollowers: 'https://api.github.com/users/:userName/followers'
     };
 
     constructor(private http: HttpClient) {
@@ -31,5 +32,10 @@ export class UserApiService {
     public getUserRepos(userName: string): Observable<IUserRepo[]> {
         const url = this.actions.getRepos.replace(':userName', userName.toString());
         return this.http.get<IUserRepo[]>(url);
+    }
+
+    public getUserFollowers(userName: string): Observable<IUser[]> {
+        const url = this.actions.getFollowers.replace(':userName', userName.toString());
+        return this.http.get<IUser[]>(url);
     }
 }

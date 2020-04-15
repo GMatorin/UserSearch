@@ -1,3 +1,8 @@
+<div class="title">
+    <h1>Welcome to UserSearch</h1>
+    <h2>A search app for GitHub Users</h2>
+</div>
+
 <div class="input-form">
     <input type="text" placeholder="Sort out a user"
     (keyup)="onKey($event)"
@@ -11,9 +16,5 @@
     (mousedown) = "handleUserDetails(user.login)">
         <img src={{user.avatar_url}} alt="user avatar">
         <h2 class="user-name">{{user.login}}</h2>
-        <a  
-        >
-        View Details
-      </a>
     </div>
 </ng-container>

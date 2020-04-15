@@ -1,3 +1,100 @@
-.user-details {
-    padding: 50px;
+.user-details_head {
+  display: flex;
+  position: relative;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.user-details_head::after{
+    content: '';
+    position: absolute;
+    top: 100%;
+    display: block;
+    width: 100%;
+    background-color: black;
+    height: 1px;
+}
+
+button {
+  width: 80px;
+  height: 25px;
+  border-radius: 5px;
+  text-align: center;
+  background-color: rgb(230, 230, 237);
+  cursor: pointer;
+  border: black 1px solid;
+  transition: all 0.3s ease 0s;
+}
+
+button:hover {
+  background-color: rgb(212, 212, 223);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 0;
+}
+
+li {
+  height: 20px;
+  padding: 5px;
+  border: black 1px solid;;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+.lists-wrapper {
+    display: flex;
+    justify-content: space-around;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.double-bounce1, .double-bounce2 {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: #333;
+  opacity: 0.6;
+  position: absolute;
+  top: 0;
+  left: 0;
+  
+  -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
+  animation: sk-bounce 2.0s infinite ease-in-out;
+}
+
+.double-bounce2 {
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
+}
+
+@-webkit-keyframes sk-bounce {
+  0%, 100% { -webkit-transform: scale(0.0) }
+  50% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes sk-bounce {
+  0%, 100% { 
+    transform: scale(0.0);
+    -webkit-transform: scale(0.0);
+  } 50% { 
+    transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+  }
 }
