@@ -1,20 +1,26 @@
-:host {
-}
-
 .title{
     text-align: center;
 }
 
 .input-form {
-    text-align: center;
+    display: flex;
+    justify-content: center;
     padding: 10px 0;
     margin-bottom: 20px;
+}
+.input-form_userSearch {
+    display: flex;
+    align-items: center;
+    margin: 0 25px;
+}
+
+.input-form_userSearch input {
+    margin-right: 10px;
 }
 
 input {
     border: black 1px solid;;
     background-color: rgb(230, 230, 237);
-    width: 35%;
     min-width: 100px;
     height: 25px;
     text-align: center;
@@ -22,6 +28,21 @@ input {
     border-radius: 20px;
     font-size: 17px;
 }
+
+button {
+    height: 25px;
+    border-radius: 5px;
+    text-align: center;
+    background-color: rgb(230, 230, 237);
+    cursor: pointer;
+    border: black 1px solid;
+    transition: all 0.3s ease 0s;
+    outline: none;
+  }
+
+  button:hover {
+    background-color: rgb(212, 212, 223);
+  }
 
 input:focus::-webkit-input-placeholder 
 {
@@ -36,23 +57,54 @@ input:focus::-webkit-input-placeholder
     align-items: center;
     border: black 2px solid;
     border-radius: 20px;
-    width: 80%;
+    width: 50%;
     margin: 0 auto 30px auto;
 }
 
 .user:hover {
-    background-color: rgb(235, 217, 217);
+    background-color: #969A97;
 }
 
 .user img {
     height: 250px;
+    border-radius: 20px;
 }
 .user-name {
     margin-bottom: 0;
 }
 
 @media screen and (max-width: 500px) {
+    .input-form {
+        flex-direction: column;
+        width: 70%;
+        margin: 0 auto 20px auto;
+    }
+
+    .input-form_userSearch {
+        flex-direction: column;
+        margin-top: 20px;
+    }
+
+    .input-form_userSearch input {
+        margin: 0 0 5px 0;
+    }
+
+    .user {
+        width: 70%;
+    }
+
     .user img {
         height: 100px;
+    }
+
+    h1 {
+        font-size: 26px;
+    }
+    h2 {
+        font-size: 20px;
+    }
+
+    input{
+        font-size: 14px;
     }
 }

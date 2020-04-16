@@ -11,17 +11,23 @@ export class UsersListPageComponent implements OnInit {
     public users$: Observable<IUser[]> = this.usersService.users$;
     public offset: BehaviorSubject<IUser[]> = new BehaviorSubject([]);
     userName: string = '';
+    startWith: number;
 
     constructor(private usersService: UsersService){}
 
     ngOnInit() {
+        // Refresh the filter by name functionality on components
+        // initialization to prevent upload of new data on scroll
+        // after returning to this page
         this.usersService.filterByName(this.userName);
     }
 
+    // Upload new users on scroll
     @HostListener("window:scroll", [])
     onScroll(): void {
-        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight && this.userName.length === 0) {
-                this.usersService.newUsersOnScroll();
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight && this.userName.length === 0 &&
+        this.usersService.usersStreamActivated) {
+                this.usersService.getNextUsersBatch();
             }
         }
 
@@ -29,11 +35,21 @@ export class UsersListPageComponent implements OnInit {
         return i;
     }
 
-    onKey(e) {
+    onKey(e): void {
+        if(!this.usersService.usersStreamActivated) {
+            return;
+        }
         this.usersService.filterByName(this.userName);
     }
 
-    handleUserDetails(userName: string) {
-        this.usersService.getUserDetailsPageInfo(userName);
+    handleUserDetails(userName: string): void {
+        this.usersService.startUserDetailsPageStream(userName);
+    }
+
+    downloadUsers(startWith: number): void {
+        if(typeof(startWith) !== "number") {
+            return;
+        }
+        this.usersService.startNewUserStream(startWith);
     }
 }

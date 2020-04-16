@@ -1,7 +1,7 @@
 <ng-container *ngIf="userCombinedInfo$ | async as userCombinedInfo; else loading">
     <div class="user-details">
         <div class="user-details_head">
-            <h1>{{userCombinedInfo.userDetails.login}} Details</h1>
+            <h1>{{userCombinedInfo.userDetails.login}}</h1>
             <button [routerLink]="['/users']">
                 Back
             </button>
@@ -32,38 +32,3 @@
             <div class="double-bounce2"></div>
         </div>
 </ng-template>
-
-
-
-
-
-<!-- <ng-container *ngIf="userRepos$ | async as userRepos">
-    <ng-container *ngIf="userDetails$ | async as userDetails">
-        <ng-container *ngIf="userFollowers$ | async as userFollowers">
-        <div class="user-details">
-            <h1>{{userDetails.login}} Details</h1>
-            <h2>List of repositories</h2>
-            <button [routerLink]="['/users']">
-                Back
-            </button>
-            <div class="lists-wrapper">
-                <div class="list">
-                    <h2>Repositories:</h2>
-                    <ul class="repositories">
-                        <li class="repositories-element" *ngFor="let repo of userRepos">
-                            {{repo.name}}
-                        </li>
-                    </ul>
-                </div>
-                <div class="list">
-                    <h2>Followers:</h2>
-                    <ul class="follower">
-                        <li class="followers-element" *ngFor="let userFollower of userFollowers">
-                            {{userFollower.login}}
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </ng-container>
-</ng-container> -->

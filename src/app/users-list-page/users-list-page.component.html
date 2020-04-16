@@ -4,9 +4,18 @@
 </div>
 
 <div class="input-form">
-    <input type="text" placeholder="Sort out a user"
+    <input type="text" placeholder="Search a user"
+    class="user-sort"
     (keyup)="onKey($event)"
     [(ngModel)]="userName">
+    <div class="input-form_userSearch">
+        <input type="number" placeholder="Start with user ID"
+        class="user-id"
+        [(ngModel)]="startWith">
+        <button
+        (click)="downloadUsers(startWith)"
+        >Download list</button>
+    </div>
 </div>
 
 <ng-container *ngIf="(users$ | async) as users">
