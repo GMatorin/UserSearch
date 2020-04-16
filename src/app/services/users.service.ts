@@ -20,10 +20,9 @@ export class UsersService {
     public userDetails$: Observable<IUserDetails>;
     public userFollowers$: Observable<IUser[]>;
     public userCombinedInfo$: Observable<IUserCombinedInfo>;
-
-    public usersStreamActivated = false;
     
     constructor(private userApiService: UserApiService) {
+        this.getNextUsersBatch();
     }
 
     // Start initial stream of users
@@ -37,7 +36,6 @@ export class UsersService {
         // Set lastUserIndex to startWith to download the right users batch
         this.lastUserIndex = startWith;
         this.getNextUsersBatch();
-        this.usersStreamActivated = true;
     }
 
     // Downloads next users batch depending on the last downloaded user
@@ -55,7 +53,7 @@ export class UsersService {
 
     // Filters out names of users which match the incoming parameter
     // Param: name to match
-    filterByName(name: string): void {
+    public filterByName(name: string): void {
         if(name.length > 0) {
             this.usersSubject.next(
                 this.usersCache.filter(user => user.login.slice(0,name.length) === name)
@@ -68,7 +66,7 @@ export class UsersService {
     // Downloads info for user details page and combines returned
     // streams into one stream
     // Param: name of requested user
-    startUserDetailsPageStream(userName: string): void {
+    public startUserDetailsPageStream(userName: string): void {
         this.userDetails$ = this.userApiService.getUserDetails(userName);
         this.userRepos$ = this.userApiService.getUserRepos(userName);
         this.userFollowers$ = this.userApiService.getUserFollowers(userName);

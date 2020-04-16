@@ -25,8 +25,7 @@ export class UsersListPageComponent implements OnInit {
     // Upload new users on scroll
     @HostListener("window:scroll", [])
     onScroll(): void {
-        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight && this.userName.length === 0 &&
-        this.usersService.usersStreamActivated) {
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight && this.userName.length === 0) {
                 this.usersService.getNextUsersBatch();
             }
         }
@@ -36,9 +35,6 @@ export class UsersListPageComponent implements OnInit {
     }
 
     onKey(e): void {
-        if(!this.usersService.usersStreamActivated) {
-            return;
-        }
         this.usersService.filterByName(this.userName);
     }
 
