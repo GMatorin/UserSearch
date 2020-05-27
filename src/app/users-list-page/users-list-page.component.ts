@@ -1,5 +1,5 @@
 import { Component, OnInit, HostListener, AfterViewInit } from "@angular/core";
-import { IUser } from "../interfaces/user.interface"
+import { IUser } from "../models/user"
 import { Observable, BehaviorSubject } from 'rxjs';
 import { UsersService } from '../services/users.service';
 

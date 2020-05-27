@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { Observable } from 'rxjs';
 import { UsersService } from '../services/users.service';
-import { IUserCombinedInfo } from '../interfaces/user-combined-info.interface';
+import { IUserCombinedInfo } from '../models/user-combined-info';
 
 @Component({
     templateUrl: "./user-details.component.html",

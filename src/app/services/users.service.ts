@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject, combineLatest } from 'rxjs';
-import { IUser } from '../interfaces/user.interface';
+import { IUser } from '../models/user';
 import { UserApiService } from './user-api.service';
 import { take, map } from 'rxjs/operators';
-import { IUserRepo } from '../interfaces/user-repo.interface';
-import { IUserDetails } from '../interfaces/user-details.interface';
-import { IUserCombinedInfo } from '../interfaces/user-combined-info.interface';
+import { IUserRepo } from '../models/user-repo';
+import { IUserDetails } from '../models/user-details';
+import { IUserCombinedInfo } from '../models/user-combined-info';
 
 @Injectable({
     providedIn: 'root'

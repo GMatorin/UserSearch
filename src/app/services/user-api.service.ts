@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { IUser } from '../interfaces/user.interface';
-import { IUserDetails } from '../interfaces/user-details.interface';
-import { IUserRepo } from '../interfaces/user-repo.interface';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, of, throwError } from 'rxjs';
+import { IUser } from '../models/user';
+import { IUserDetails } from '../models/user-details';
+import { IUserRepo } from '../models/user-repo';
+import { UserApiError } from '../models/user-api-error';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -19,9 +21,12 @@ export class UserApiService {
     constructor(private http: HttpClient) {
     }
 
-    public downloadUsers(startWith: number): Observable<IUser[]> {
+    public downloadUsers(startWith: number): Observable<IUser[] | UserApiError> {
         const url = this.actions.getUsers.replace(':searchNumber', startWith.toString());
-        return this.http.get<IUser[]>(url);
+        return this.http.get<IUser[]>(url)
+            .pipe(
+                catchError(err => this.handleHttpError(err))
+            );
     }
 
     public getUserDetails(userName: string): Observable<IUserDetails> {
@@ -37,5 +42,13 @@ export class UserApiService {
     public getUserFollowers(userName: string): Observable<IUser[]> {
         const url = this.actions.getFollowers.replace(':userName', userName.toString());
         return this.http.get<IUser[]>(url);
+    }
+
+    private handleHttpError(error: HttpErrorResponse): Observable<UserApiError> {
+        let errorData = new UserApiError();
+        errorData.errorNumber = 100;
+        errorData.message = error.statusText;
+        errorData.friendlyMessage = "An error ocurred while receiving user data";
+        return throwError(errorData);
     }
 }
