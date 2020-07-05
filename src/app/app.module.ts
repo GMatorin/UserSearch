@@ -10,6 +10,13 @@ import { FormsModule } from '@angular/forms';
 import { UserDetailsComponent } from './user-details/user-details.component';
 import { RouterModule } from '@angular/router';
 
+/* Feature Modules */
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { EffectsModule } from '@ngrx/effects';
+import { reducer } from './state/users-list.reducer';
+import { UsersListEffects } from './state/users-list.effects';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,6 +27,13 @@ import { RouterModule } from '@angular/router';
     BrowserModule,
     HttpClientModule,
     FormsModule,
+    StoreModule.forRoot({applicationState: reducer}),
+    EffectsModule.forRoot([UsersListEffects]),
+    StoreDevtoolsModule.instrument({
+      name: 'Users Search',
+      maxAge: 25,
+      logOnly: false
+    }),
     RouterModule.forRoot([
        {path: 'users', component: UsersListPageComponent},
        {path: 'users/:userName', component: UserDetailsComponent},

@@ -2,6 +2,9 @@ import { Component, OnInit, HostListener, AfterViewInit, OnChanges, AfterContent
 import { IUser } from "../models/user"
 import { Observable, BehaviorSubject } from 'rxjs';
 import { UsersService } from '../services/users.service';
+import { Store } from '@ngrx/store';
+import * as fromUsersList from '../state/users-list.reducer'
+import * as usersListActions from '../state/users-list.action'
 
 @Component({
     templateUrl: "./users-list-page.component.html",
@@ -12,11 +15,15 @@ export class UsersListPageComponent implements OnInit, AfterContentInit {
     userName: string = '';
     startWith: number;
 
-    constructor(private usersService: UsersService){
+    constructor(
+        private usersService: UsersService,
+        private store: Store<fromUsersList.State>
+        ){
         this.usersService.getNextUsersBatch();
     }
 
     ngOnInit() {
+        this.store.dispatch(new usersListActions.Load(0));
     }
 
     ngAfterContentInit() {
