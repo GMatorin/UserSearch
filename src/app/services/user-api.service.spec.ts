@@ -1,10 +1,8 @@
-// import { UserApiService }
-
 import { UserApiService } from "./user-api.service"
-import { of, Observable } from 'rxjs';
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController, TestRequest } from '@angular/common/http/testing';
 import { IUser } from '../models/user';
+import { UserApiError } from '../models/user-api-error';
 
 const usersArr = [
     {
@@ -70,31 +68,9 @@ const usersArr = [
 
 describe("UserApiService", () => {
     let userApiService: UserApiService;
-    let mockHttp;
-
-    beforeEach(() => {
-        mockHttp = jasmine.createSpyObj("mockHttp", ["get"]);
-        userApiService = new UserApiService(mockHttp);
-    })
-
-    it("downloadUsers is called with right URLs", () => { 
-        let url = "https://api.github.com/users?since=0";
-        userApiService.downloadUsers(0);
-        expect(mockHttp.get).toHaveBeenCalledWith(url);
-    })
-
-    it("downloadUsers returns an observable", () => { 
-        mockHttp.get.and.returnValue(of(true));
-        let url = "https://api.github.com/users?since=:searchNumber";
-        let respond = userApiService.downloadUsers(0);
-        expect(respond).toBeInstanceOf(Observable);
-    })
-})
-
-describe("UserApiService everything together #2", () => {
-    let userApiService: UserApiService;
     let httpTestingController: HttpTestingController;
     let usersMock = [...usersArr];
+    let url = "https://api.github.com/users?since=0";
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -105,8 +81,11 @@ describe("UserApiService everything together #2", () => {
         httpTestingController = TestBed.get(HttpTestingController);
     });
 
-    it("One http get request made with right url", () => {
-        let url = "https://api.github.com/users?since=0";
+    afterEach(() => {
+        httpTestingController.verify();
+    })
+
+    it("downloadUsers downloads all users", () => {
         userApiService.downloadUsers(0).subscribe((users: IUser[]) => {
             expect(users.length).toBe(3);
         });;
@@ -114,6 +93,22 @@ describe("UserApiService everything together #2", () => {
         expect(usersRequest.request.method).toEqual('GET');
 
         usersRequest.flush(usersMock);
-        httpTestingController.verify(); 
+    });
+
+    it("downloadUsers throws an UserApiError", () => {
+        userApiService.downloadUsers(0).subscribe(
+            (data: IUser[]) => fail('this data request should fail'),
+            (err: UserApiError) => {
+                expect(err.errorNumber).toBe(100);
+                expect(err.friendlyMessage).toEqual('An error ocurred while receiving user data');
+            }
+        );
+
+        let usersRequest: TestRequest = httpTestingController.expectOne(url);
+
+        usersRequest.flush('500 error', {
+            status: 500,
+            statusText: 'Server Error',
+        });
     });
 });

@@ -22,7 +22,6 @@ export class UsersService {
     public userCombinedInfo$: Observable<IUserCombinedInfo>;
     
     constructor(private userApiService: UserApiService) {
-        this.getNextUsersBatch();
     }
 
     // Start initial stream of users
@@ -44,7 +43,7 @@ export class UsersService {
         // and put them into Subject to update the UI of components
         this.userApiService.downloadUsers(this.lastUserIndex)
         .pipe(take(1))
-        .subscribe(users => {
+        .subscribe((users: IUser[]) => {
             this.usersCache.push(...users);
             this.usersSubject.next(this.usersCache);
             this.lastUserIndex = this.usersCache[this.usersCache.length - 1].id;
