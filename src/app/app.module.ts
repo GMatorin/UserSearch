@@ -14,7 +14,8 @@ import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
-import { reducer } from './state/users-list.reducer';
+import { reducer as usersListReducer } from './state/users-list.reducer';
+import { reducer as userDetailsReducer } from './state/user-details.reducer'
 import { UsersListEffects } from './state/users-list.effects';
 
 @NgModule({
@@ -27,7 +28,10 @@ import { UsersListEffects } from './state/users-list.effects';
     BrowserModule,
     HttpClientModule,
     FormsModule,
-    StoreModule.forRoot({applicationState: reducer}),
+    StoreModule.forRoot({
+      users: usersListReducer,
+      userDetails: userDetailsReducer
+    },),
     EffectsModule.forRoot([UsersListEffects]),
     StoreDevtoolsModule.instrument({
       name: 'Users Search',

@@ -8,9 +8,9 @@ export interface UsersListState {
     error: String;
 }
 
-export interface State extends fromRoot.State {
-    users: UsersListState;
-}
+// export interface State extends fromRoot.State {
+//     users: UsersListState;
+// }
 
 const initialState: UsersListState = {
     users: [],
@@ -21,7 +21,9 @@ const getUsersListState = createFeatureSelector<UsersListState>('users');
 
 export const getUsers = createSelector(
     getUsersListState,
-    state => state.users
+    state => {
+        return state ? state.users : [];
+    }
 );
 
 export const getError = createSelector(
@@ -29,9 +31,16 @@ export const getError = createSelector(
     state => state.error
 );
 
+export const getUsersListLastIndex = createSelector(
+    getUsersListState,
+    state => state ? state.users[state.users.length - 1].id : null
+);
+
 export function reducer(state = initialState, action: UsersListActions): UsersListState {
     switch(action.type) {
         case UsersListActionTypes.LoadSuccess:
+            const oldState = state;
+            const newData = action.payload
             return {
                 ...state,
                 users: action.payload,

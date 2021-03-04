@@ -2,7 +2,7 @@ import { Component, OnInit, HostListener, AfterViewInit, OnChanges, AfterContent
 import { IUser } from "../models/user"
 import { Observable, BehaviorSubject } from 'rxjs';
 import { UsersService } from '../services/users.service';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import * as fromUsersList from '../state/users-list.reducer'
 import * as usersListActions from '../state/users-list.action'
 
@@ -11,19 +11,29 @@ import * as usersListActions from '../state/users-list.action'
     styleUrls: ["./users-list-page.component.css"]
 })
 export class UsersListPageComponent implements OnInit, AfterContentInit {
-    public users$: Observable<IUser[]> = this.usersService.users$;
+    users: IUser[] = [];
     userName: string = '';
     startWith: number;
+    lastUserId: number;
+    private scrollLoadTouched = false;
 
     constructor(
         private usersService: UsersService,
-        private store: Store<fromUsersList.State>
+        private store: Store<fromUsersList.UsersListState>
         ){
-        this.usersService.getNextUsersBatch();
+        // this.usersService.getNextUsersBatch();
     }
 
     ngOnInit() {
         this.store.dispatch(new usersListActions.Load(0));
+        this.store.pipe(
+            select(fromUsersList.getUsers),
+            ).subscribe(users => {
+            this.users = users;
+        });
+        this.store.pipe(select(fromUsersList.getUsersListLastIndex)).subscribe(lastUserId => {
+            this.lastUserId = lastUserId;
+        });
     }
 
     ngAfterContentInit() {
@@ -36,10 +46,14 @@ export class UsersListPageComponent implements OnInit, AfterContentInit {
     // Upload new users on scroll
     @HostListener("window:scroll", [])
     onScroll(): void {
-        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight && this.userName.length === 0) {
-                this.usersService.getNextUsersBatch();
+        if (!this.scrollLoadTouched && (window.innerHeight + window.scrollY) >= document.body.offsetHeight && this.userName.length === 0) {
+                // this.usersService.getNextUsersBatch();
+                this.scrollLoadTouched = true;
+                this.store.dispatch(new usersListActions.Load(this.lastUserId));
+                setTimeout(() => {
+                    this.scrollLoadTouched = false }, 100);
             }
-        }
+    }
 
     trackByIdx(i) {
         return i;

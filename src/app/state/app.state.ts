@@ -1,3 +1,5 @@
+import { IUser } from '../models/user';
+
 export interface State {
-    user: any;
+    user: IUser;
 }

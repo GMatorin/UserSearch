@@ -27,7 +27,7 @@ export class UsersService {
     // Start initial stream of users
     // Param: startWith signifies from which user's number to start the stream
     public startNewUserStream(startWith: number): void {
-        // If users cache is not empty, clear the last search result and sturt new stream
+        // If users cache is not empty, clear the last search result and start new stream
         if(this.usersCache.length > 0) {
             this.usersCache = [];
             this.usersSubject.next(this.usersCache);

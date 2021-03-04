@@ -4,7 +4,8 @@ import { IUser } from '../models/user';
 export enum UsersListActionTypes {
     Load = "[UsersList] Load",
     LoadSuccess = '[UsersList] Load Success',
-    LoadFail = '[UsersList] Load Fail'
+    LoadFail = '[UsersList] Load Fail',
+    GetLastUserIndex = '[UsersList] Get Last User Index'
 };
 
 export class Load implements Action {
